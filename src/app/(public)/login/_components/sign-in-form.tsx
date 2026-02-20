@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
-import { useSignInForm } from '../_hooks/authentication';
+import { useSignInForm } from '../_hooks/authentication-hooks';
 
 export function SignInForm() {
   const { form, onSubmit } = useSignInForm();
@@ -56,7 +56,11 @@ export function SignInForm() {
                 <FormItem>
                   <FormLabel>Senha</FormLabel>
                   <FormControl>
-                    <Input placeholder="Crie sua senha (mínimo 8 caracteres)" {...field} />
+                    <Input
+                      placeholder="Crie sua senha (mínimo 8 caracteres)"
+                      {...field}
+                      type="password"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
