@@ -1,6 +1,6 @@
 'use client';
 
-import { SubmitButton } from '@/components/submit-button';
+import { ActionButton } from '@/components/action-button';
 import {
   Card,
   CardContent,
@@ -84,7 +84,7 @@ export function SignUpForm() {
         </CardContent>
 
         <CardFooter>
-          <SubmitButton onSubmitAction={form.handleSubmit(onSubmit)}>Criar conta</SubmitButton>
+          <ActionButton onSubmitAction={form.handleSubmit(onSubmit)}>Criar conta</ActionButton>
         </CardFooter>
       </Form>
     </Card>

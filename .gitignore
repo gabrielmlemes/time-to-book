@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Arquivos .md locais
+BETTER_AUTH_EMAIL_VERIFICATION.md

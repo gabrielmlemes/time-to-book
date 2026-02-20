@@ -1,6 +1,7 @@
 'use client';
 
-import { SubmitButton } from '@/components/submit-button';
+import { ActionButton } from '@/components/action-button';
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -22,7 +23,7 @@ import { Input } from '@/components/ui/input';
 import { useSignInForm } from '../_hooks/authentication-hooks';
 
 export function SignInForm() {
-  const { form, onSubmit } = useSignInForm();
+  const { form, onSubmit, resendVerificationEmail } = useSignInForm();
 
   return (
     <Card>
@@ -70,9 +71,15 @@ export function SignInForm() {
         </CardContent>
 
         <CardFooter>
-          <SubmitButton onSubmitAction={form.handleSubmit(onSubmit)}>Entrar</SubmitButton>
+          <ActionButton onSubmitAction={form.handleSubmit(onSubmit)}>Entrar</ActionButton>
         </CardFooter>
       </Form>
+
+      <div className="flex justify-center">
+        <Button variant="link" onClick={resendVerificationEmail} className="text-xs">
+          Reenviar e-mail de verificação
+        </Button>
+      </div>
     </Card>
   );
 }
