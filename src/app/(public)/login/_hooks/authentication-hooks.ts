@@ -27,27 +27,27 @@ export function useSignupForm() {
   });
 
   async function onSubmit(data: SignupSchema) {
-    try {
-      await authClient.signUp.email(
-        {
-          email: data.email,
-          password: data.password,
-          name: data.name,
-          // callbackURL: '/login',
+    await authClient.signUp.email(
+      {
+        email: data.email,
+        password: data.password,
+        name: data.name,
+        // callbackURL: '/login', // apenas se for adicionar verificação de email
+      },
+      {
+        onSuccess: () => {
+          router.push('/dashboard');
         },
-        {
-          onSuccess: () => {
-            router.push('/dashboard');
-          },
-        }
-      );
+        onError: (ctx) => {
+          if (ctx.error.message == 'User already exists') {
+            toast.error('E-mail já cadastrado');
+            return;
+          }
+        },
+      }
+    );
 
-      form.reset();
-      toast.success('Conta criada com sucesso!');
-    } catch (error) {
-      console.log(error);
-      toast.error('Erro ao criar conta');
-    }
+    form.reset();
   }
 
   return {
@@ -56,7 +56,10 @@ export function useSignupForm() {
   };
 }
 
+// -------------------------------------------------------
+
 export function useSignInForm() {
+  const router = useRouter();
   const form = useForm<SignInSchema>({
     resolver: zodResolver(signInSchema),
     mode: 'onBlur',
@@ -66,8 +69,22 @@ export function useSignInForm() {
     },
   });
 
-  function onSubmit(data: SignInSchema) {
-    console.log(data);
+  async function onSubmit(data: SignInSchema) {
+    await authClient.signIn.email(
+      {
+        email: data.email,
+        password: data.password,
+      },
+      {
+        onSuccess: () => {
+          router.push('/dashboard');
+        },
+        onError: () => {
+          toast.error('Erro ao acessar a conta. Verifique suas credenciais!');
+          form.reset();
+        },
+      }
+    );
   }
 
   return {
