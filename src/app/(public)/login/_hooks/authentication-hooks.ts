@@ -113,8 +113,8 @@ export function useSignInForm() {
         onSuccess: () => {
           toast.success('E-mail de verificação reenviado com sucesso!');
         },
-        onError: (ctx) => {
-          toast.error(ctx.error.message || 'Erro ao reenviar e-mail.');
+        onError: () => {
+          toast.error('Erro ao reenviar e-mail.');
         },
       }
     );

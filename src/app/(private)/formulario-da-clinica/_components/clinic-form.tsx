@@ -1,5 +1,6 @@
 'use client';
 import { ArrowDown } from 'lucide-react';
+import { useState } from 'react';
 
 import { ActionButton } from '@/components/action-button';
 import { Button } from '@/components/ui/button';
@@ -26,7 +27,8 @@ import { Input } from '@/components/ui/input';
 import { useClinicForm } from '../_hooks/useClinicForm';
 
 export default function ClinicForm() {
-  const { form, onSubmit } = useClinicForm();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { form, onSubmit } = useClinicForm(() => setIsModalOpen(false));
 
   return (
     <div className="h-screen w-screen flex justify-center items-center flex-col">
@@ -35,15 +37,15 @@ export default function ClinicForm() {
         Clique aqui para adicionar uma clínica <ArrowDown />
       </h2>
 
-      <Dialog>
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
         <DialogTrigger asChild>
-          <Button variant="outline">Abrir formulário</Button>
+          <Button variant="outline">Adicionar clínica</Button>
         </DialogTrigger>
         <Form {...form}>
-          <DialogContent className="sm:max-w-sm">
-            <form className="space-y-4">
+          <form className="space-y-4">
+            <DialogContent className="sm:max-w-sm">
               <DialogHeader>
-                <DialogTitle>Adicionar clínica</DialogTitle>
+                <DialogTitle>Adicione uma clínica</DialogTitle>
                 <DialogDescription>Digite o nome da sua clínica para continuar</DialogDescription>
               </DialogHeader>
 
@@ -60,19 +62,19 @@ export default function ClinicForm() {
                   </FormItem>
                 )}
               />
-            </form>
-            <DialogFooter className="flex">
-              <DialogClose asChild>
-                <Button variant="outline" className="flex-1">
-                  Cancelar
-                </Button>
-              </DialogClose>
+              <DialogFooter className="flex">
+                <DialogClose asChild>
+                  <Button variant="outline" className="flex-1">
+                    Cancelar
+                  </Button>
+                </DialogClose>
 
-              <ActionButton onSubmitAction={form.handleSubmit(onSubmit)} className="flex-1">
-                Criar conta
-              </ActionButton>
-            </DialogFooter>
-          </DialogContent>
+                <ActionButton onSubmitAction={form.handleSubmit(onSubmit)} className="flex-1">
+                  Criar conta
+                </ActionButton>
+              </DialogFooter>
+            </DialogContent>
+          </form>
         </Form>
       </Dialog>
     </div>

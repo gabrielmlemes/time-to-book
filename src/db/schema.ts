@@ -94,11 +94,11 @@ export const clinicsTableRelations = relations(clinicsTable, ({ many }) => ({
 // TABELA INTERMEDIÁRIA QUE LIGA UM USUÁRIO À UMA CLÍNICA
 export const usersToClinicsTable = pgTable('users_to_clinics', {
   userId: text('user_id')
-    .references(() => usersTable.id)
+    .references(() => usersTable.id, { onDelete: 'cascade' }) // DELETAR O USUÁRIO SE A CLÍNICA FOR DELETADA
     .notNull(),
   clinicId: uuid('clinic_id')
     .notNull()
-    .references(() => clinicsTable.id),
+    .references(() => clinicsTable.id, { onDelete: 'cascade' }), // DELETAR A CLÍNICA SE O USUÁRIO FOR DELETADO
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at')
     .defaultNow()
