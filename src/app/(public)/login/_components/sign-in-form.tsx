@@ -18,12 +18,13 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { GoogleIcon } from '@/components/ui/google-icon';
 import { Input } from '@/components/ui/input';
 
 import { useSignInForm } from '../_hooks/authentication-hooks';
 
 export function SignInForm() {
-  const { form, onSubmit, resendVerificationEmail } = useSignInForm();
+  const { form, onSubmit, resendVerificationEmail, signInWithGoogle } = useSignInForm();
 
   return (
     <Card>
@@ -75,7 +76,12 @@ export function SignInForm() {
         </CardFooter>
       </Form>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center flex-col items-center gap-3 px-6">
+        <Button variant="outline" className="text-xs w-full" onClick={signInWithGoogle}>
+          <GoogleIcon />
+          Entrar com Google
+        </Button>
+
         <Button variant="link" onClick={resendVerificationEmail} className="text-xs">
           Reenviar e-mail de verificação
         </Button>

@@ -97,6 +97,23 @@ export function useSignInForm() {
     );
   }
 
+  async function signInWithGoogle() {
+    await authClient.signIn.social(
+      {
+        provider: 'google',
+        callbackURL: '/dashboard',
+      },
+      {
+        onSuccess: () => {
+          router.push('/dashboard');
+        },
+        onError: () => {
+          toast.error('Erro ao acessar a conta do Google');
+        },
+      }
+    );
+  }
+
   async function resendVerificationEmail() {
     const email = form.getValues('email');
     if (!email) {
@@ -124,5 +141,6 @@ export function useSignInForm() {
     form,
     onSubmit,
     resendVerificationEmail,
+    signInWithGoogle,
   };
 }
