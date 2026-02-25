@@ -72,6 +72,7 @@ export default function AppSidebar() {
           src="/logo_clinica_3d.webp"
           width={150}
           height={150}
+          priority
         />
         <SidebarTrigger
           className="absolute -bottom-5 -right-5 hidden sm:flex! items-center justify-center rounded-full size-10"

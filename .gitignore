@@ -41,4 +41,5 @@ yarn-error.log*
 next-env.d.ts
 
 # Arquivos .md locais
+*.md
 BETTER_AUTH_EMAIL_VERIFICATION.md

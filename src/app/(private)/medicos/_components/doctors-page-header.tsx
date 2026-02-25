@@ -1,7 +1,5 @@
-import { PlusIcon } from 'lucide-react';
 import React from 'react';
 
-import { Button } from '@/components/ui/button';
 import {
   Container,
   PageActions,
@@ -11,6 +9,8 @@ import {
   PageHeaderContent,
   PageTitle,
 } from '@/components/ui/page-container';
+
+import { AddProfessionalButton } from './add-professional-button';
 
 const DoctorsPageHeader = () => {
   return (
@@ -22,10 +22,7 @@ const DoctorsPageHeader = () => {
         </PageHeaderContent>
 
         <PageActions>
-          <Button>
-            <PlusIcon className="size-4" />
-            Adicionar médico
-          </Button>
+          <AddProfessionalButton />
         </PageActions>
       </PageHeader>
 
