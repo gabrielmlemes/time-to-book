@@ -24,6 +24,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { authClient } from '@/lib/auth-client';
 
@@ -55,7 +56,7 @@ export default function AppSidebar() {
   const pathname = usePathname();
   const session = authClient.useSession();
 
-  const clinicName = session?.data?.user.clinic.name;
+  const clinicName = session?.data?.user?.clinic?.name;
   const userEmail = session?.data?.user.email;
 
   async function handleSignOut() {
@@ -65,12 +66,16 @@ export default function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader className="flex items-center justify-center border-b border-border p-2 mt-2">
+      <SidebarHeader className="flex items-center justify-center border-b border-border p-2 mt-2 relative">
         <Image
           alt="Logo da plataforma Time to Book"
           src="/logo_clinica_3d.webp"
           width={150}
           height={150}
+        />
+        <SidebarTrigger
+          className="absolute -bottom-5 -right-5 hidden sm:flex! items-center justify-center rounded-full size-10"
+          variant="default"
         />
       </SidebarHeader>
       <SidebarContent>

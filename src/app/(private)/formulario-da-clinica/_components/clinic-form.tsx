@@ -70,7 +70,7 @@ export default function ClinicForm() {
                 </DialogClose>
 
                 <ActionButton onSubmitAction={form.handleSubmit(onSubmit)} className="flex-1">
-                  Criar conta
+                  Criar
                 </ActionButton>
               </DialogFooter>
             </DialogContent>

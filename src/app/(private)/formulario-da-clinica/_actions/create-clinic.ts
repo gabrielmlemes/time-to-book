@@ -1,5 +1,6 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import z from 'zod';
 
@@ -40,4 +41,6 @@ export default async function createClinic({ clinicName }: CreateClinicSchema) {
     userId: session.user.id,
     clinicId: clinic[0].id,
   });
+
+  revalidatePath('/dashboard');
 }

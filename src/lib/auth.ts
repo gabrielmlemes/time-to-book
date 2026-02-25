@@ -30,15 +30,15 @@ export const auth = betterAuth({
         },
       });
       // TODO: Ao adaptar para o usuário ter múltiplas clínicas, deve-se alterar esse trecho do código. Por enquanto só está retornado a primeira clínica.
-      const firstClinic = userClinics[0];
+      const firstClinic = userClinics?.[0];
 
       return {
         ...session,
         user: {
           ...user,
           clinic: {
-            id: firstClinic.clinicId,
-            name: firstClinic.clinic.name,
+            id: firstClinic?.clinicId,
+            name: firstClinic?.clinic?.name,
           },
         },
       };
