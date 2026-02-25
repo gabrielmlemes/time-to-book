@@ -2,7 +2,7 @@
 import { Calendar1Icon, Home, LogOut, Stethoscope, Users2Icon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -52,6 +52,7 @@ const items = [
 
 export default function AppSidebar() {
   const router = useRouter();
+  const pathname = usePathname();
   const session = authClient.useSession();
 
   const clinicName = session?.data?.user.clinic.name;
@@ -74,11 +75,11 @@ export default function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="mb-4">Menu principal</SidebarGroupLabel>
+          <SidebarGroupLabel className="mb-2">Menu principal</SidebarGroupLabel>
           <SidebarGroupContent>
             {items.map((item) => (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild isActive={pathname === item.url}>
                   <Link href={item.url}>
                     <item.icon />
                     <span>{item.title}</span>
@@ -87,7 +88,6 @@ export default function AppSidebar() {
               </SidebarMenuItem>
             ))}
           </SidebarGroupContent>
-          <SidebarGroupContent></SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup />
       </SidebarContent>
@@ -102,12 +102,6 @@ export default function AppSidebar() {
                     <AvatarFallback className="w-6 h-6">
                       <Users2Icon />
                     </AvatarFallback>
-
-                    {/* <Image
-                      src={session?.data?.user.image}
-                      alt="Logo do usuário"
-                      className="w-6 h-6 rounded-full"
-                    /> */}
                   </Avatar>
 
                   <span className="text-sm font-medium">{clinicName}</span>
