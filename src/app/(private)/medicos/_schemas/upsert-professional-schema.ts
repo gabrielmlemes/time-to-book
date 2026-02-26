@@ -12,7 +12,7 @@ export const upsertProfessionalSchema = z
       .trim()
       .min(3, { message: 'A especialidade é obrigatória' })
       .max(20, { message: 'A especialidade deve ter no máximo 20 caracteres' }),
-    appointmentPrice: z.number().min(1, { message: 'O preço do atendimento é obrigatório' }),
+    appointmentPriceInCents: z.number().min(1, { message: 'O preço do atendimento é obrigatório' }),
     availableFromWeekday: z.string().min(1, { message: 'O dia de início é obrigatório' }),
     availableToWeekday: z.string().min(1, { message: 'O dia de término é obrigatório' }),
     availableFromTime: z.string().min(1, { message: 'O horário de início é obrigatório' }),

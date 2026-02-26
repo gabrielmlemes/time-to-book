@@ -56,7 +56,6 @@ export default function AppSidebar() {
   const pathname = usePathname();
   const session = authClient.useSession();
 
-  const clinicName = session?.data?.user?.clinic?.name;
   const userEmail = session?.data?.user.email;
 
   async function handleSignOut() {
@@ -109,8 +108,6 @@ export default function AppSidebar() {
                       <Users2Icon />
                     </AvatarFallback>
                   </Avatar>
-
-                  <span className="text-sm font-medium">{clinicName}</span>
                 </Button>
               </DropdownMenuTrigger>
 

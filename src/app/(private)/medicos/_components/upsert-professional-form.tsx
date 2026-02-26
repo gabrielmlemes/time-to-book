@@ -98,7 +98,7 @@ export const UpsertProfessionalForm = ({ setOpen }: { setOpen: (open: boolean) =
           />
 
           <FormField
-            name="appointmentPrice"
+            name="appointmentPriceInCents"
             control={form.control}
             render={({ field }) => (
               <FormItem>

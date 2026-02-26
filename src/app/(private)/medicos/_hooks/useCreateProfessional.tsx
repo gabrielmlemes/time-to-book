@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { createProfessional } from '../_actions/create-professional';
+import { upsertProfessional } from '../_actions/upsert-professional';
 import {
   UpsertProfessionalSchema,
   upsertProfessionalSchema,
@@ -18,7 +18,7 @@ export function useCreateProfessional(closeModal?: () => void) {
     mode: 'onSubmit',
     defaultValues: {
       name: '',
-      appointmentPrice: 0,
+      appointmentPriceInCents: 0,
       availableFromTime: '',
       availableToTime: '',
       availableFromWeekday: '1',
@@ -27,8 +27,15 @@ export function useCreateProfessional(closeModal?: () => void) {
   });
 
   async function onSubmit(data: UpsertProfessionalSchema) {
+    const formattedData = {
+      ...data,
+      availableFromWeekday: Number(data.availableFromWeekday),
+      availableToWeekday: Number(data.availableToWeekday),
+      appointmentPriceInCents: data.appointmentPriceInCents * 100,
+    };
+
     try {
-      await createProfessional(data);
+      await upsertProfessional(formattedData);
       toast.success('Profissional criado com sucesso!');
       form.reset();
       closeModal?.();
