@@ -1,6 +1,7 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -26,6 +27,18 @@ export function useCreateProfessional(closeModal?: () => void) {
     },
   });
 
+  const upsertProfessionalAction = useAction(upsertProfessional, {
+    onSuccess: () => {
+      toast.success('Profissional criado com sucesso!');
+      form.reset();
+      closeModal?.();
+      router.refresh();
+    },
+    onError: () => {
+      toast.error('Erro ao criar profissional. Tente novamente.');
+    },
+  });
+
   async function onSubmit(data: UpsertProfessionalSchema) {
     const formattedData = {
       ...data,
@@ -34,16 +47,7 @@ export function useCreateProfessional(closeModal?: () => void) {
       appointmentPriceInCents: data.appointmentPriceInCents * 100,
     };
 
-    try {
-      await upsertProfessional(formattedData);
-      toast.success('Profissional criado com sucesso!');
-      form.reset();
-      closeModal?.();
-      router.refresh();
-    } catch (error) {
-      console.error(error);
-      toast.error('Erro ao criar profissional. Tente novamente.');
-    }
+    upsertProfessionalAction.execute(formattedData);
   }
 
   return {

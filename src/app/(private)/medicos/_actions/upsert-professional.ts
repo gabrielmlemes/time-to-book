@@ -1,5 +1,4 @@
 'use server';
-
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
 import z from 'zod';
@@ -7,6 +6,8 @@ import z from 'zod';
 import { db } from '@/db';
 import { doctorsTable } from '@/db/schema';
 import { auth } from '@/lib/auth';
+
+import { actionClient } from './../../../../lib/next-safe-action';
 
 const upsertProfessionalServerSchema = z.object({
   id: z.uuid().optional(),
@@ -18,37 +19,33 @@ const upsertProfessionalServerSchema = z.object({
   availableFromTime: z.string(),
   availableToTime: z.string(),
 });
-type UpsertProfessionalServerSchema = z.infer<typeof upsertProfessionalServerSchema>;
 
-export async function upsertProfessional(data: UpsertProfessionalServerSchema) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  if (!session) {
-    throw new Error('Unauthorized');
-  }
-
-  const schema = upsertProfessionalServerSchema.safeParse(data);
-  if (!schema.success) {
-    throw new Error('Invalid data');
-  }
-
-  await db
-    .insert(doctorsTable)
-    .values({
-      ...schema.data,
-      clinicId: session.user.clinic.id,
-    })
-    .onConflictDoUpdate({
-      target: [doctorsTable.id],
-      set: {
-        ...schema.data,
-      },
+export const upsertProfessional = actionClient
+  .schema(upsertProfessionalServerSchema)
+  .action(async ({ parsedInput }) => {
+    const session = await auth.api.getSession({
+      headers: await headers(),
     });
+    if (!session) {
+      throw new Error('Unauthorized');
+    }
 
-  revalidatePath('/medicos');
+    await db
+      .insert(doctorsTable)
+      .values({
+        ...parsedInput,
+        clinicId: session.user.clinic.id,
+      })
+      .onConflictDoUpdate({
+        target: [doctorsTable.id],
+        set: {
+          ...parsedInput,
+        },
+      });
 
-  return {
-    message: 'Professional created',
-  };
-}
+    revalidatePath('/medicos');
+
+    return {
+      message: 'Professional created',
+    };
+  });
