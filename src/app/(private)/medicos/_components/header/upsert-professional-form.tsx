@@ -31,8 +31,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import { dentalSpecialties, medicalSpecialties } from '../_constants';
-import { useCreateProfessional } from '../_hooks/useCreateProfessional';
+import { dentalSpecialties, medicalSpecialties } from '../../_constants';
+import { useCreateProfessional } from '../../_hooks/useCreateProfessional';
 
 export const UpsertProfessionalForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
   const { form, onSubmit } = useCreateProfessional(() => setOpen(false));

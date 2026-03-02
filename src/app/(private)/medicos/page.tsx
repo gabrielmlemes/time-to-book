@@ -2,9 +2,13 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
+import { Container } from '@/components/ui/page-container';
+import { Separator } from '@/components/ui/separator';
 import { auth } from '@/lib/auth';
 
-import DoctorsPageHeader from './_components/doctors-page-header';
+import { getProfessionals } from './_actions/get-professionals';
+import AllDoctorsCards from './_components/card/all-doctors-cards';
+import DoctorsPageHeader from './_components/header/doctors-page-header';
 
 const MedicosPage = async () => {
   const session = await auth.api.getSession({
@@ -19,7 +23,17 @@ const MedicosPage = async () => {
     redirect('/formulario-da-clinica');
   }
 
-  return <DoctorsPageHeader />;
+  const doctors = await getProfessionals();
+
+  return (
+    <div className="flex flex-col w-full">
+      <Container>
+        <DoctorsPageHeader />
+        <Separator className="my-8" />
+        <AllDoctorsCards doctors={doctors} />
+      </Container>
+    </div>
+  );
 };
 
 export default MedicosPage;
