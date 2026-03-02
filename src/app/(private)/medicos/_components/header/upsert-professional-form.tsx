@@ -32,16 +32,27 @@ import {
 } from '@/components/ui/select';
 
 import { dentalSpecialties, medicalSpecialties } from '../../_constants';
-import { useCreateProfessional } from '../../_hooks/useCreateProfessional';
+import { useUpsertProfessional } from '../../_hooks/useUpsertProfessional';
+import { Doctor } from '../../_types/doctor';
 
-export const UpsertProfessionalForm = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
-  const { form, onSubmit } = useCreateProfessional(() => setOpen(false));
+interface UpsertProfessionalForm {
+  setOpen: (open: boolean) => void;
+  doctor?: Doctor;
+}
+
+export const UpsertProfessionalForm = ({ setOpen, doctor }: UpsertProfessionalForm) => {
+  const { form, onSubmit } = useUpsertProfessional({
+    closeModal: () => setOpen(false),
+    doctor,
+  });
 
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Adicione o profissional</DialogTitle>
-        <DialogDescription>Cadastre os dados do profissional</DialogDescription>
+        <DialogTitle>{doctor ? doctor.name : 'Cadastrar profissional'}</DialogTitle>
+        <DialogDescription>
+          {doctor ? 'Atualize os dados do profissional' : 'Cadastre os dados do profissional'}
+        </DialogDescription>
       </DialogHeader>
 
       <Form {...form}>
@@ -323,7 +334,7 @@ export const UpsertProfessionalForm = ({ setOpen }: { setOpen: (open: boolean) =
             </DialogClose>
 
             <ActionButton onSubmitAction={form.handleSubmit(onSubmit)} className="flex-1">
-              Cadastrar
+              {doctor ? 'Atualizar' : 'Cadastrar'}
             </ActionButton>
           </DialogFooter>
         </form>

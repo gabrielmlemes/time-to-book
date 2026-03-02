@@ -5,15 +5,15 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { doctorsTable } from '@/db/schema';
 import { formatCurrencyInCents } from '@/helpers/format-currency';
 
 import { formatWeekday, getAvailability } from '../../_helpers/availability';
+import { Doctor } from '../../_types/doctor';
 import ProfessionalDetailsButton from './professional-details-button';
 
-interface DoctorCardProps {
-  doctor: typeof doctorsTable.$inferSelect;
-}
+type DoctorCardProps = {
+  doctor: Doctor;
+};
 
 const DoctorCard = ({ doctor }: DoctorCardProps) => {
   const availability = getAvailability(doctor);
@@ -66,7 +66,7 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
         <Separator />
 
         <CardFooter className="mt-5 px-0">
-          <ProfessionalDetailsButton />
+          <ProfessionalDetailsButton doctor={doctor} />
         </CardFooter>
       </CardContent>
     </Card>

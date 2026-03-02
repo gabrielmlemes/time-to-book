@@ -53,6 +53,7 @@ export const upsertProfessional = actionClient
       .insert(doctorsTable)
       .values({
         ...parsedInput,
+        id: parsedInput.id,
         clinicId: session.user.clinic.id,
         availableFromTime: availableFromTimeUTC.format('HH:mm:ss'), // usamos o .format do dayjs para converter para o formato string pois precisamos salvar no banco como string. Então antes nós recebemos isso como Date e transformamos em string aqui, pro banco.
         availableToTime: availableToTimeUTC.format('HH:mm:ss'), // usamos o .format do dayjs para converter para o formato string pois precisamos salvar no banco como string. Então antes nós recebemos isso como Date e transformamos em string aqui, pro banco.

@@ -21,7 +21,7 @@ export const AddProfessionalButton = () => {
       <DialogTrigger asChild>
         <Button>
           <PlusIcon className="size-4" />
-          Adicionar médico
+          Adicionar profissional
         </Button>
       </DialogTrigger>
 

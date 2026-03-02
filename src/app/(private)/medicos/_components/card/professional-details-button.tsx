@@ -5,9 +5,14 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogTrigger } from '@/components/ui/dialog';
 
+import { Doctor } from '../../_types/doctor';
 import { UpsertProfessionalForm } from '../header/upsert-professional-form';
 
-const ProfessionalDetailsButton = () => {
+type ProfessionalDetailsButtonProps = {
+  doctor: Doctor;
+};
+
+const ProfessionalDetailsButton = ({ doctor }: ProfessionalDetailsButtonProps) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -16,7 +21,7 @@ const ProfessionalDetailsButton = () => {
         <Button className="w-full">Ver detalhes</Button>
       </DialogTrigger>
 
-      {open && <UpsertProfessionalForm setOpen={setOpen} />}
+      {open && <UpsertProfessionalForm setOpen={setOpen} doctor={doctor} />}
     </Dialog>
   );
 };
