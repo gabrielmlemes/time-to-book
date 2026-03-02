@@ -1,5 +1,5 @@
 import { Calendar1Icon, Clock1Icon, Cross, DollarSignIcon, UserIcon } from 'lucide-react';
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
@@ -15,8 +15,8 @@ type DoctorCardProps = {
   doctor: Doctor;
 };
 
-const DoctorCard = ({ doctor }: DoctorCardProps) => {
-  const availability = getAvailability(doctor);
+const DoctorCard = memo(({ doctor }: DoctorCardProps) => {
+  const availability = useMemo(() => getAvailability(doctor), [doctor]);
 
   return (
     <Card className="w-full">
@@ -71,6 +71,8 @@ const DoctorCard = ({ doctor }: DoctorCardProps) => {
       </CardContent>
     </Card>
   );
-};
+});
+
+DoctorCard.displayName = 'DoctorCard';
 
 export default DoctorCard;

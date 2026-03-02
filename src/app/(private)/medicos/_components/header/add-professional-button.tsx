@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const UpsertProfessionalForm = dynamic(
   () => import('./upsert-professional-form').then((mod) => mod.UpsertProfessionalForm),
-  { ssr: false, loading: () => <Skeleton /> }
+  { ssr: false, loading: () => <Skeleton className="h-[550px] w-[450px]" /> }
 );
 
 export const AddProfessionalButton = () => {
