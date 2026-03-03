@@ -9,7 +9,7 @@ import { formatCurrencyInCents } from '@/helpers/format-currency';
 
 import { formatWeekday, getAvailability } from '../../_helpers/availability';
 import { Doctor } from '../../_types/doctor';
-import ProfessionalDetailsButton from './professional-details-button';
+import { ProfessionalDetailsButton } from './professional-details-button';
 
 type DoctorCardProps = {
   doctor: Doctor;

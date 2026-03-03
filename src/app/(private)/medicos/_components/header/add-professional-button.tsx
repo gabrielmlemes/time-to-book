@@ -1,31 +1,19 @@
 'use client';
 
 import { PlusIcon } from 'lucide-react';
-import dynamic from 'next/dynamic';
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogTrigger } from '@/components/ui/dialog';
-import { Skeleton } from '@/components/ui/skeleton';
 
-const UpsertProfessionalForm = dynamic(
-  () => import('./upsert-professional-form').then((mod) => mod.UpsertProfessionalForm),
-  { ssr: false, loading: () => <Skeleton className="h-[550px] w-[450px]" /> }
-);
+import { useProfessionalDialogStore } from '../../_stores/use-professional-dialog-store';
 
 export const AddProfessionalButton = () => {
-  const [open, setOpen] = useState(false);
+  const { openDialog } = useProfessionalDialogStore();
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button>
-          <PlusIcon className="size-4" />
-          Adicionar profissional
-        </Button>
-      </DialogTrigger>
-
-      {open && <UpsertProfessionalForm setOpen={setOpen} />}
-    </Dialog>
+    <Button onClick={() => openDialog()}>
+      <PlusIcon className="size-4" />
+      Adicionar profissional
+    </Button>
   );
 };

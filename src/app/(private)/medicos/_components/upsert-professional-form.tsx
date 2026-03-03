@@ -31,9 +31,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-import { dentalSpecialties, medicalSpecialties } from '../../_constants';
-import { useUpsertProfessional } from '../../_hooks/useUpsertProfessional';
-import { Doctor } from '../../_types/doctor';
+import { dentalSpecialties, medicalSpecialties } from '../_constants';
+import { useUpsertProfessional } from '../_hooks/useUpsertProfessional';
+import { Doctor } from '../_types/doctor';
 
 interface UpsertProfessionalForm {
   setOpen: (open: boolean) => void;

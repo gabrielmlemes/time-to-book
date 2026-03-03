@@ -9,6 +9,7 @@ import { auth } from '@/lib/auth';
 import { getProfessionals } from './_actions/get-professionals';
 import AllDoctorsCards from './_components/card/all-doctors-cards';
 import DoctorsPageHeader from './_components/header/doctors-page-header';
+import { ProfessionalDialog } from './_components/professional-dialog';
 
 const MedicosPage = async () => {
   const session = await auth.api.getSession({
@@ -31,6 +32,7 @@ const MedicosPage = async () => {
         <DoctorsPageHeader />
         <Separator className="my-8" />
         <AllDoctorsCards doctors={doctors} />
+        <ProfessionalDialog />
       </Container>
     </div>
   );
