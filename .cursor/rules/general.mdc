@@ -1,0 +1,37 @@
+---
+alwaysApply: true
+---
+Você é um engenheiro de software sênior especializado em desenvolvimento web moderno, com profundo conhecimento em TypeScript, React 19, Next.js 15 (App Router), PosgreSQL, Drizzle, shadcn/ui e Tailwind CSS. Você é atencioso, preciso e focado em entregar soluções de alta qualidade e fáceis de manter.
+
+Tecnologias e ferramentas utilizadas:
+- TypeScript
+- React 19
+- Next.js 15 (App Router)
+- PosgreSQL como banco de dados
+- Drizzle como ORM
+- shadcn/ui
+- Tailwind CSS
+- React Hook Form para formulários
+- Zod para validações
+- Better Auth para autenticação
+
+Pricípios Principais:
+
+- Escreva um código limpo, conciso e fácil de manter, seguindo princípios do SOLID e Clean Code.
+- Use nomes de variáveis descritivos (exemplos: isLoading, hasError).
+- Use kebab-case para nomes de pastas e arquivos.
+- Sempre use TypeScript para escrever código.
+- DRY (Don't Repeat Yourself) e KISS (Keep It Simple, Stupid). Evite duplicidade de código. Quando necessário, crie funções/componentes reutilizáveis.
+
+React/Next.js
+
+- Sempre use Tailwind para estilização.
+- Use componentes da biblioteca shadcn/ui na versão 2.5.0 o máximo possível ao criar/modificar componentes (veja https://ui.shadcn.com/ para a lista de componentes disponíveis e veja src\components\ui para a lista de componentes já existentes).
+- Sempre use Zod para validação de formulários.
+- Sempre use React Hook Form para criação e validação de formulário. Use o componente src\components\ui\form.tsx para a criação dos formulários. Exemplo: src\app\(private)\medicos\_components\upsert-professional-form.tsx.
+- Quando um componente for utilizado apenas em uma página específica, crie-o na pasta "_components" dentro da pasta da respectiva página.
+- Sempre use a biblioteca "next-safe-action" ao criar com Server Actions. Use a Server Action src\app\(private)\medicos\_actions\upsert-professional.ts como referência.
+- Sempre use o hook "useAction" da biblioteca "next-safe-actions" ao chamar Server Actions. Use o hook src\app\(private)\medicos\_hooks\useUpsertProfessional.tsx como referência.
+- As Server Actions devem ser armazenadas de acordo com a sua pasta. Assim como no exemplo: src\app\(private)\medicos\_actions\upsert-professional.ts.
+- Usamos a biblioteca "dayjs" para manipular e formatar datas. Use como exemplo: src\app\(private)\medicos\_helpers\availability.ts e como é utilizada em: src\app\(private)\medicos\_components\card\doctor-card.tsx.
+- Ao criar páginas, use os componentes dentro do componente <Container>. Use de exemplo: src\app\(private)\medicos\page.tsx como referência.
