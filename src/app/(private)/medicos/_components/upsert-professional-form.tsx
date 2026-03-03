@@ -3,6 +3,17 @@
 import { NumericFormat } from 'react-number-format';
 
 import { ActionButton } from '@/components/action-button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import {
   DialogClose,
@@ -41,7 +52,7 @@ interface UpsertProfessionalForm {
 }
 
 export const UpsertProfessionalForm = ({ setOpen, doctor }: UpsertProfessionalForm) => {
-  const { form, onSubmit } = useUpsertProfessional({
+  const { form, onSubmit, onDelete } = useUpsertProfessional({
     closeModal: () => setOpen(false),
     doctor,
   });
@@ -327,11 +338,44 @@ export const UpsertProfessionalForm = ({ setOpen, doctor }: UpsertProfessionalFo
           />
 
           <DialogFooter className="flex">
-            <DialogClose asChild>
-              <Button variant="outline" className="flex-1">
-                Cancelar
-              </Button>
-            </DialogClose>
+            {doctor ? (
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button variant="destructive" className="flex-1">
+                    Deletar
+                  </Button>
+                </AlertDialogTrigger>
+
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>
+                      Deseja realmente deletar este profissional? Esta ação não pode ser desfeita.
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-sm">
+                      Isso irá deletar o médico e todas as consultas agendadas com ele.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+
+                  <AlertDialogFooter>
+                    <AlertDialogAction asChild variant="destructive">
+                      <ActionButton
+                        className="flex-1"
+                        onSubmitAction={form.handleSubmit(() => onDelete({ id: doctor.id }))}
+                      >
+                        Deletar
+                      </ActionButton>
+                    </AlertDialogAction>
+                    <AlertDialogCancel className="flex-1">Cancelar</AlertDialogCancel>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            ) : (
+              <DialogClose asChild>
+                <Button variant="outline" className="flex-1">
+                  Cancelar
+                </Button>
+              </DialogClose>
+            )}
 
             <ActionButton onSubmitAction={form.handleSubmit(onSubmit)} className="flex-1">
               {doctor ? 'Atualizar' : 'Cadastrar'}

@@ -5,6 +5,7 @@ import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { deleteDoctor } from '../_actions/delete-doctor';
 import { upsertProfessional } from '../_actions/upsert-professional';
 import { getAvailability } from '../_helpers/availability';
 import {
@@ -67,8 +68,26 @@ export function useUpsertProfessional({ closeModal, doctor }: useUpsertProfessio
     upsertProfessionalAction.execute(formattedData);
   }
 
+  const deleteProfessionalAction = useAction(deleteDoctor, {
+    onSuccess: () => {
+      toast.success('Profissional deletado com sucesso.');
+      closeModal?.();
+      router.refresh();
+    },
+    onError: () => {
+      toast.error('Erro ao deletar profissional.');
+      closeModal?.();
+      router.refresh();
+    },
+  });
+
+  async function onDelete({ id }: { id: string }) {
+    deleteProfessionalAction.execute({ id });
+  }
+
   return {
     form,
     onSubmit,
+    onDelete,
   };
 }
