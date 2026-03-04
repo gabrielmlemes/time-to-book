@@ -10,7 +10,7 @@ export const AddPatientButton = () => {
   const { openDialog } = usePatientDialogStore();
 
   return (
-    <Button onClick={openDialog}>
+    <Button onClick={() => openDialog()}>
       <PlusIcon className="size-4" />
       Adicionar paciente
     </Button>

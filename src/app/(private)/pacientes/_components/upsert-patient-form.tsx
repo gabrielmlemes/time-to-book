@@ -27,21 +27,26 @@ import {
 import { formatPhoneNumber } from '@/helpers/format-phone';
 
 import { useUpsertPatient } from '../_hooks/useUpsertPatient';
+import { Patient } from '../_types/patient';
 
 interface UpsertPatientFormProps {
   setOpen: (open: boolean) => void;
+  patient?: Patient;
 }
 
-export const UpsertPatientForm = ({ setOpen }: UpsertPatientFormProps) => {
+export const UpsertPatientForm = ({ setOpen, patient }: UpsertPatientFormProps) => {
   const { form, onSubmit } = useUpsertPatient({
     closeModal: () => setOpen(false),
+    patient,
   });
 
   return (
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Cadastrar paciente</DialogTitle>
-        <DialogDescription>Cadastre os dados do paciente.</DialogDescription>
+        <DialogTitle>{patient ? 'Editar paciente' : 'Cadastrar paciente'}</DialogTitle>
+        <DialogDescription>
+          {patient ? 'Edite os dados do paciente.' : 'Cadastre os dados do paciente.'}
+        </DialogDescription>
       </DialogHeader>
 
       <Form {...form}>

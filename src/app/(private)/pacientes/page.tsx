@@ -6,7 +6,8 @@ import { Separator } from '@/components/ui/separator';
 import { auth } from '@/lib/auth';
 
 import { PatientsPageHeader } from './_components/header/patients-page-header';
-import { PatientsDialog } from './_components/patient-dialog';
+import { PatientDialog } from './_components/table/patient-dialog';
+import { PatientsTable } from './_components/table/patients-table';
 
 const PatientsPage = async () => {
   const session = await auth.api.getSession({
@@ -30,8 +31,9 @@ const PatientsPage = async () => {
       <Container>
         <PatientsPageHeader />
         <Separator className="my-8" />
-        {/* TODO: Lista de pacientes */}
-        <PatientsDialog />
+        <PatientsTable />
+
+        <PatientDialog />
       </Container>
     </div>
   );

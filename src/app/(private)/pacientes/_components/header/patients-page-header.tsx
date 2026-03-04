@@ -1,16 +1,27 @@
 import React from 'react';
 
+import {
+  PageActions,
+  PageDescription,
+  PageHeader,
+  PageHeaderContent,
+  PageTitle,
+} from '@/components/ui/page-container';
+
 import { AddPatientButton } from './add-patient-button';
 
 const PatientsPageHeader = () => {
   return (
-    <div className="flex items-center justify-between">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Pacientes</h1>
-        <p className="text-sm text-muted-foreground">Gerencie os pacientes da sua clínica.</p>
-      </div>
-      <AddPatientButton />
-    </div>
+    <PageHeader>
+      <PageHeaderContent>
+        <PageTitle>Pacientes</PageTitle>
+        <PageDescription>Gerencie os pacientes da sua clínica.</PageDescription>
+      </PageHeaderContent>
+
+      <PageActions>
+        <AddPatientButton />
+      </PageActions>
+    </PageHeader>
   );
 };
 

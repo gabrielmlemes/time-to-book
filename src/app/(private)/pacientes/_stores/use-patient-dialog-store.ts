@@ -1,13 +1,17 @@
 import { create } from 'zustand';
 
+import type { Patient } from '../_types/patient';
+
 export type PatientDialogState = {
   isOpen: boolean;
-  openDialog: () => void;
+  patient?: Patient;
+  openDialog: (patient?: Patient) => void;
   closeDialog: () => void;
 };
 
 export const usePatientDialogStore = create<PatientDialogState>((set) => ({
   isOpen: false,
-  openDialog: () => set({ isOpen: true }),
-  closeDialog: () => set({ isOpen: false }),
+  patient: undefined,
+  openDialog: (patient) => set({ isOpen: true, patient: patient }),
+  closeDialog: () => set({ isOpen: false, patient: undefined }),
 }));

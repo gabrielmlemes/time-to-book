@@ -7,23 +7,25 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
 import { upsertPatient } from '../_actions/upsert-patient';
-import { UpsertPatientSchema, upsertPatientSchema } from '../_schemas/upsert-patient-schema';
+import { patientDataSchema, UpsertPatientSchema } from '../_schemas/upsert-patient-schema';
+import type { Patient } from '../_types/patient';
 
 type UseUpsertPatientProps = {
   closeModal?: () => void;
+  patient?: Patient;
 };
 
-export function useUpsertPatient({ closeModal }: UseUpsertPatientProps) {
+export function useUpsertPatient({ closeModal, patient }: UseUpsertPatientProps) {
   const router = useRouter();
 
   const form = useForm<UpsertPatientSchema>({
-    resolver: zodResolver(upsertPatientSchema),
+    resolver: zodResolver(patientDataSchema),
     mode: 'onSubmit',
     defaultValues: {
-      name: '',
-      email: '',
-      phoneNumber: '',
-      sex: 'male',
+      name: patient?.name ?? '',
+      email: patient?.email ?? '',
+      phoneNumber: patient?.phoneNumber ?? '',
+      sex: patient?.sex ?? 'male',
     },
   });
 
@@ -42,7 +44,10 @@ export function useUpsertPatient({ closeModal }: UseUpsertPatientProps) {
   });
 
   function onSubmit(data: UpsertPatientSchema) {
-    upsertPatientAction.execute(data);
+    upsertPatientAction.execute({
+      id: patient?.id,
+      data: data,
+    });
   }
 
   return {

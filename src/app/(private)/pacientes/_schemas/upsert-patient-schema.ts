@@ -1,10 +1,10 @@
 import z from 'zod';
 
 import { PHONE_REGEX } from '../../_constants/regex';
-import { patientSexEnumSchema } from '../_constants/regex/patient';
+import { patientSexEnumSchema } from '../_constants/patient';
 
-export const upsertPatientSchema = z.object({
-  id: z.uuid().optional(),
+// Schema for the core data fields of a patient
+export const patientDataSchema = z.object({
   name: z
     .string()
     .trim()
@@ -18,4 +18,10 @@ export const upsertPatientSchema = z.object({
   sex: patientSexEnumSchema,
 });
 
-export type UpsertPatientSchema = z.infer<typeof upsertPatientSchema>;
+// Main schema for the upsert action, separating ID from data
+export const upsertPatientSchema = z.object({
+  id: z.uuid().optional(),
+  data: patientDataSchema,
+});
+
+export type UpsertPatientSchema = z.infer<typeof patientDataSchema>;
