@@ -6,8 +6,8 @@ import { Separator } from '@/components/ui/separator';
 import { auth } from '@/lib/auth';
 
 import { PatientsPageHeader } from './_components/header/patients-page-header';
+import { PatientsTable } from './_components/table/index.';
 import { PatientDialog } from './_components/table/patient-dialog';
-import { PatientsTable } from './_components/table/patients-table';
 
 const PatientsPage = async () => {
   const session = await auth.api.getSession({
@@ -23,8 +23,6 @@ const PatientsPage = async () => {
   if (userWithoutClinic) {
     redirect('/formulario-da-clinica');
   }
-
-  // Em breve: listar pacientes
 
   return (
     <div className="flex flex-col w-full">

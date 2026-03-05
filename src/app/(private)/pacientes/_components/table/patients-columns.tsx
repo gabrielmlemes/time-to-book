@@ -97,10 +97,8 @@ export const columns: ColumnDef<Patient>[] = [
                     <Separator />
 
                     <AlertDialogDescription className="w-full text-center">
-                      <p>
-                        Esta ação não pode ser desfeita. Isso irá deletar todos os dados e consultas
-                        de <strong className="text-foreground">{patientName}</strong>.
-                      </p>
+                      Esta ação não pode ser desfeita. Isso irá deletar todos os dados e consultas
+                      de <strong className="text-foreground">{patientName}</strong>.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
 
