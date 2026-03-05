@@ -6,6 +6,7 @@ import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { deletePatient } from '../_actions/delete-patient';
 import { upsertPatient } from '../_actions/upsert-patient';
 import { patientDataSchema, UpsertPatientSchema } from '../_schemas/upsert-patient-schema';
 import type { Patient } from '../_types/patient';
@@ -50,8 +51,26 @@ export function useUpsertPatient({ closeModal, patient }: UseUpsertPatientProps)
     });
   }
 
+  const deletePatientAction = useAction(deletePatient, {
+    onSuccess: () => {
+      toast.success('Paciente deletado com sucesso.');
+      closeModal?.();
+      router.refresh();
+    },
+    onError: () => {
+      toast.error('Erro ao deletar paciente.');
+      closeModal?.();
+      router.refresh();
+    },
+  });
+
+  async function onDelete({ id }: { id: string }) {
+    deletePatientAction.execute({ id });
+  }
+
   return {
     form,
     onSubmit,
+    onDelete,
   };
 }

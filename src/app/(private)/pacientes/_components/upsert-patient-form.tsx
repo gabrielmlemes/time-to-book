@@ -1,7 +1,9 @@
 'use client';
 
 import { ActionButton } from '@/components/action-button';
+import { Button } from '@/components/ui/button';
 import {
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -126,8 +128,14 @@ export const UpsertPatientForm = ({ setOpen, patient }: UpsertPatientFormProps) 
           />
 
           <DialogFooter className="flex">
+            <DialogClose asChild>
+              <Button variant="outline" className="flex-1">
+                Cancelar
+              </Button>
+            </DialogClose>
+
             <ActionButton onSubmitAction={form.handleSubmit(onSubmit)} className="flex-1">
-              Salvar
+              {patient ? 'Atualizar' : 'Cadastrar'}
             </ActionButton>
           </DialogFooter>
         </form>

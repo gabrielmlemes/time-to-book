@@ -8,13 +8,12 @@ import { Button } from '@/components/ui/button';
 import { usePatientDialogStore } from '../../_stores/use-patient-dialog-store';
 import type { Patient } from '../../_types/patient';
 
-type PatientsDetailsButtonProps = {
+type EditPatientTableButtonProps = {
   patient: Patient;
 };
 
-export const PatientsDetailsButton = ({ patient }: PatientsDetailsButtonProps) => {
+export const EditPatientTableButton = ({ patient }: EditPatientTableButtonProps) => {
   const { openDialog } = usePatientDialogStore();
-  console.log('paciente clicado: ', patient);
 
   return (
     <Button className="w-full" onClick={() => openDialog(patient)} variant="ghost">
