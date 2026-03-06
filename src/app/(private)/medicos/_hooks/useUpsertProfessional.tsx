@@ -61,7 +61,7 @@ export function useUpsertProfessional({ closeModal, doctor }: useUpsertProfessio
       ...data,
       availableFromWeekday: Number(data.availableFromWeekday),
       availableToWeekday: Number(data.availableToWeekday),
-      appointmentPriceInCents: data.appointmentPriceInCents * 100,
+      appointmentPriceInCents: Math.round(data.appointmentPriceInCents * 100),
       id: doctor?.id,
     };
 

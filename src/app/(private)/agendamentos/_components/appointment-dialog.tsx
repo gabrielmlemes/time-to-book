@@ -18,9 +18,14 @@ const UpsertAppointmentForm = dynamic(
 interface AppointmentDialogProps {
   patients: Patient[];
   doctors: Doctor[];
+  existingAppointments: { id: string; date: Date; doctorId: string }[];
 }
 
-export function AppointmentDialog({ patients, doctors }: AppointmentDialogProps) {
+export function AppointmentDialog({
+  patients,
+  doctors,
+  existingAppointments,
+}: AppointmentDialogProps) {
   const { isOpen, closeDialog, appointment } = useAppointmentDialogStore();
 
   return (
@@ -31,6 +36,7 @@ export function AppointmentDialog({ patients, doctors }: AppointmentDialogProps)
           appointment={appointment}
           patients={patients}
           doctors={doctors}
+          existingAppointments={existingAppointments}
         />
       )}
     </Dialog>

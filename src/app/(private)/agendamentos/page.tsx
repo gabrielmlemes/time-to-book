@@ -8,6 +8,7 @@ import { auth } from '@/lib/auth';
 
 import { getProfessionals } from '../medicos/_actions/get-professionals';
 import { getPatients } from '../pacientes/_actions/get-patients';
+import { getAppointments } from './_actions/get-appointments';
 import { AppointmentDialog } from './_components/appointment-dialog';
 import AppointmentsPageHeader from './_components/header/appointments-page-header';
 import { AppointmentsTable } from './_components/table';
@@ -25,7 +26,11 @@ const AppointmentsPage = async () => {
     redirect('/formulario-da-clinica');
   }
 
-  const [patients, doctors] = await Promise.all([getPatients(), getProfessionals()]);
+  const [patients, doctors, appointments] = await Promise.all([
+    getPatients(),
+    getProfessionals(),
+    getAppointments(),
+  ]);
 
   return (
     <div className="flex flex-col w-full">
@@ -35,7 +40,11 @@ const AppointmentsPage = async () => {
 
         <AppointmentsTable />
 
-        <AppointmentDialog patients={patients} doctors={doctors} />
+        <AppointmentDialog
+          patients={patients}
+          doctors={doctors}
+          existingAppointments={appointments}
+        />
       </Container>
     </div>
   );

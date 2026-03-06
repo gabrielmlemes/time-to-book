@@ -1,6 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { useRouter } from 'next/navigation';
 import { useAction } from 'next-safe-action/hooks';
 import { useForm } from 'react-hook-form';
@@ -13,6 +15,8 @@ import {
   upsertAppointmentSchema,
 } from '../_schemas/upsert-appointment-schema';
 import { Appointment } from '../_types/appointment';
+
+dayjs.extend(utc);
 
 type UseUpsertAppointmentProps = {
   closeModal?: () => void;
@@ -32,6 +36,7 @@ export function useUpsertAppointment({ closeModal, appointment }: UseUpsertAppoi
         ? appointment.appointmentPriceInCents / 100
         : 0,
       date: appointment?.date ? new Date(appointment.date) : undefined,
+      time: appointment?.date ? dayjs(appointment.date).local().format('HH:mm') : '',
     },
   });
 
@@ -50,9 +55,17 @@ export function useUpsertAppointment({ closeModal, appointment }: UseUpsertAppoi
   });
 
   async function onSubmit(data: UpsertAppointmentSchema) {
+    // Combinar Data e Hora
+    const combinedDate = dayjs(data.date)
+      .set('hour', parseInt(data.time.split(':')[0]))
+      .set('minute', parseInt(data.time.split(':')[1]))
+      .set('second', 0)
+      .toDate();
+
     upsertAppointmentAction.execute({
       ...data,
-      appointmentPriceInCents: data.appointmentPriceInCents * 100,
+      date: combinedDate,
+      appointmentPriceInCents: Math.round(data.appointmentPriceInCents * 100),
       id: appointment?.id,
     });
   }

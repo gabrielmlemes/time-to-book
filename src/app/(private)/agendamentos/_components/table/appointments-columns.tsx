@@ -32,8 +32,7 @@ import { getAppointments } from '../../_actions/get-appointments';
 import { DeleteAppointmentButton } from './delete-appointment-button';
 import { EditAppointmentTableButton } from './edit-appointment-table-button';
 
-// O segredo estÃ¡ aqui: este tipo agora Ã© extraÃdo automaticamente da sua Action.
-// Como mudamos o schema para .notNull(), o date e o updatedAt aqui serÃ£o Date, e nÃ£o Date | null.
+// Tipo para os dados da tabela incluindo as relações através da inferência da action
 type AppointmentWithRelations = Awaited<ReturnType<typeof getAppointments>>[number];
 
 export const columns: ColumnDef<AppointmentWithRelations>[] = [
@@ -52,10 +51,9 @@ export const columns: ColumnDef<AppointmentWithRelations>[] = [
     accessorKey: 'date',
     header: 'Data',
     cell: ({ row }) => {
-      return dayjs(row.original.date).format('DD/MM/YYYY');
+      return dayjs(row.original.date).format('DD/MM/YYYY [às] HH:mm');
     },
   },
-
   {
     id: 'price',
     accessorKey: 'appointmentPriceInCents',
@@ -88,7 +86,10 @@ export const columns: ColumnDef<AppointmentWithRelations>[] = [
 
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button variant="destructive" className="flex-1 w-full text-center">
+                  <Button
+                    variant="destructive"
+                    className="flex-1 w-full justify-start px-2 py-1.5 text-sm font-normal h-auto"
+                  >
                     <TrashIcon className="mr-2 size-4 text-white" />
                     Excluir
                   </Button>
@@ -103,8 +104,8 @@ export const columns: ColumnDef<AppointmentWithRelations>[] = [
 
                     <AlertDialogDescription className="w-full text-center">
                       Esta ação não pode ser desfeita. Isso irá deletar permanentemente o
-                      agendamento de <strong className="text-foreground">{patientName}</strong> com{' '}
-                      <strong className="text-foreground"> {doctorName}</strong>.
+                      agendamento de <strong className="text-foreground">{patientName}</strong> com
+                      o profissional <strong className="text-foreground">{doctorName}</strong>.
                     </AlertDialogDescription>
                   </AlertDialogHeader>
 
