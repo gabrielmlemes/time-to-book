@@ -80,6 +80,7 @@ export const clinicsTable = pgTable('clinics', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at')
     .defaultNow()
+    .notNull()
     .$onUpdate(() => new Date()),
 });
 
@@ -102,6 +103,7 @@ export const usersToClinicsTable = pgTable('users_to_clinics', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at')
     .defaultNow()
+    .notNull()
     .$onUpdate(() => new Date()),
 });
 
@@ -137,6 +139,7 @@ export const doctorsTable = pgTable('doctors', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at')
     .defaultNow()
+    .notNull()
     .$onUpdate(() => new Date()),
 });
 
@@ -166,6 +169,7 @@ export const patientsTable = pgTable('patients', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at')
     .defaultNow()
+    .notNull()
     .$onUpdate(() => new Date()),
 });
 
@@ -184,6 +188,7 @@ export const patientsTableRelations = relations(patientsTable, ({ many, one }) =
 export const appointmentsTable = pgTable('appointments', {
   id: uuid('id').primaryKey().defaultRandom(),
   date: timestamp('date').notNull(),
+  appointmentPriceInCents: integer('appointment_price_in_cents').notNull(),
   patientId: uuid('patient_id')
     .references(() => patientsTable.id, { onDelete: 'cascade' }) // DELETAR O PACIENTE SE O AGENDAMENTO FOR DELETADO
     .notNull(),
@@ -196,6 +201,7 @@ export const appointmentsTable = pgTable('appointments', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at')
     .defaultNow()
+    .notNull()
     .$onUpdate(() => new Date()),
 });
 

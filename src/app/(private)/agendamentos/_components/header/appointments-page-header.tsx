@@ -8,21 +8,21 @@ import {
   PageTitle,
 } from '@/components/ui/page-container';
 
-import { AddPatientButton } from './add-patient-button';
+import { AddAppointmentButton } from './add-appointment-button';
 
-const PatientsPageHeader = () => {
+const AppointmentsPageHeader = () => {
   return (
     <PageHeader>
       <PageHeaderContent>
-        <PageTitle>Pacientes</PageTitle>
-        <PageDescription>Gerencie os pacientes</PageDescription>
+        <PageTitle>Agendamentos</PageTitle>
+        <PageDescription>Gerencie os agendamentos</PageDescription>
       </PageHeaderContent>
 
       <PageActions>
-        <AddPatientButton />
+        <AddAppointmentButton />
       </PageActions>
     </PageHeader>
   );
 };
 
-export { PatientsPageHeader };
+export default AppointmentsPageHeader;

@@ -72,5 +72,6 @@ export function useUpsertPatient({ closeModal, patient }: UseUpsertPatientProps)
     form,
     onSubmit,
     onDelete,
+    isLoading: upsertPatientAction.isPending || deletePatientAction.isPending,
   };
 }

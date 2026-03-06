@@ -14,8 +14,8 @@ const DoctorsPageHeader = () => {
   return (
     <PageHeader>
       <PageHeaderContent>
-        <PageTitle>Medicos</PageTitle>
-        <PageDescription>Gerencie os médicos de sua clínica</PageDescription>
+        <PageTitle>Profissionais</PageTitle>
+        <PageDescription>Gerencie os profissionais</PageDescription>
       </PageHeaderContent>
 
       <PageActions>

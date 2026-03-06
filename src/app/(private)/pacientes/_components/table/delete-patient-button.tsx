@@ -11,12 +11,13 @@ type DeletePatientButtonProps = {
 };
 
 export const DeletePatientButton = ({ patient }: DeletePatientButtonProps) => {
-  const { onDelete } = useUpsertPatient({
+  const { onDelete, isLoading } = useUpsertPatient({
     patient,
   });
 
   return (
     <Button
+      disabled={isLoading}
       variant="destructive"
       className="flex-1"
       onClick={(e) => {
