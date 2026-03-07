@@ -8,16 +8,17 @@ import { Patient } from '../../_types/patient';
 
 type DeletePatientButtonProps = {
   patient: Patient;
+  onSuccess?: () => void;
 };
 
-export const DeletePatientButton = ({ patient }: DeletePatientButtonProps) => {
-  const { onDelete, isLoading } = useUpsertPatient({
+export const DeletePatientButton = ({ patient, onSuccess }: DeletePatientButtonProps) => {
+  const { onDelete } = useUpsertPatient({
     patient,
+    closeModal: onSuccess, // O hook chama closeModal no onSuccess da action
   });
 
   return (
     <Button
-      disabled={isLoading}
       variant="destructive"
       className="flex-1"
       onClick={(e) => {

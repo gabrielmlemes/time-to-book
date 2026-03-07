@@ -2,6 +2,7 @@
 
 import { ColumnDef } from '@tanstack/react-table';
 import { EllipsisVerticalIcon, TrashIcon } from 'lucide-react';
+import { useState } from 'react';
 
 import { EditPatientTableButton } from '@/app/(private)/pacientes/_components/table/edit-patient-table-button';
 import {
@@ -34,11 +35,76 @@ import { DeletePatientButton } from './delete-patient-button';
 
 type Patient = typeof patientsTable.$inferSelect;
 
+const ActionsCell = ({ patient }: { patient: Patient }) => {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const patientName = patient.name;
+
+  const handleCloseAll = () => {
+    setIsDeleteDialogOpen(false);
+    setIsDropdownOpen(false);
+  };
+
+  return (
+    <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <EllipsisVerticalIcon className="w-4 h-4" />
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel className="text-center">{patientName}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup className="space-y-1">
+          <DropdownMenuItem asChild>
+            <EditPatientTableButton patient={patient} onClick={() => setIsDropdownOpen(false)} />
+          </DropdownMenuItem>
+
+          <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" className="flex-1 w-full text-center">
+                <TrashIcon className="mr-2 size-4" />
+                Excluir
+              </Button>
+            </AlertDialogTrigger>
+
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle className="text-center text-xl w-full">
+                  Deseja realmente deletar este paciente?
+                </AlertDialogTitle>
+                <Separator />
+
+                <AlertDialogDescription className="w-full text-center">
+                  Esta ação não pode ser desfeita. Isso irá deletar todos os dados e agendamentos de{' '}
+                  <strong className="text-foreground">{patientName}</strong>.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+
+              <AlertDialogFooter className="flex">
+                <AlertDialogCancel className="flex-1">Cancelar</AlertDialogCancel>
+
+                <AlertDialogAction asChild>
+                  <DeletePatientButton patient={patient} onSuccess={handleCloseAll} />
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
 export const columns: ColumnDef<Patient>[] = [
   {
     id: 'name',
     accessorKey: 'name',
     header: 'Nome',
+    cell: ({ row }) => {
+      return <span className="font-medium text-foreground">{row.original.name}</span>;
+    },
   },
   {
     id: 'email',
@@ -56,65 +122,11 @@ export const columns: ColumnDef<Patient>[] = [
     header: 'Sexo',
     cell: ({ row }) => {
       const value = row.getValue('sex') as PatientSex;
-
       return getPatientSexLabel(value);
     },
   },
   {
     id: 'actions',
-    cell: ({ row: patient }) => {
-      const patientName = patient.original.name;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <EllipsisVerticalIcon className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>{patientName}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup className="space-y-1">
-              <DropdownMenuItem asChild>
-                <EditPatientTableButton patient={patient.original} />
-              </DropdownMenuItem>
-
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button variant="destructive" className="flex-1 w-full">
-                    <TrashIcon className="size-4 text-white" />
-                    Excluir
-                  </Button>
-                </AlertDialogTrigger>
-
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle className="text-center text-xl w-full">
-                      Deseja realmente deletar este paciente?
-                    </AlertDialogTitle>
-                    <Separator />
-
-                    <AlertDialogDescription className="w-full text-center">
-                      Esta ação não pode ser desfeita. Isso irá deletar todos os dados e consultas
-                      de <strong className="text-foreground">{patientName}</strong>.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-
-                  <AlertDialogFooter className="flex">
-                    <AlertDialogCancel className="flex-1">Cancelar</AlertDialogCancel>
-
-                    <AlertDialogAction asChild>
-                      <DeletePatientButton patient={patient.original} />
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
+    cell: ({ row }) => <ActionsCell patient={row.original} />,
   },
 ];

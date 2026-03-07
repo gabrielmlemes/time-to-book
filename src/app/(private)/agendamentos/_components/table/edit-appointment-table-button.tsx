@@ -9,13 +9,24 @@ import { Appointment } from '../../_types/appointment';
 
 interface EditAppointmentTableButtonProps {
   appointment: Appointment;
+  onClick?: () => void;
 }
 
-export const EditAppointmentTableButton = ({ appointment }: EditAppointmentTableButtonProps) => {
+export const EditAppointmentTableButton = ({
+  appointment,
+  onClick,
+}: EditAppointmentTableButtonProps) => {
   const { openDialog } = useAppointmentDialogStore();
 
   return (
-    <Button variant="ghost" className="w-full text-center" onClick={() => openDialog(appointment)}>
+    <Button
+      variant="ghost"
+      className="w-full text-center"
+      onClick={() => {
+        openDialog(appointment);
+        onClick?.();
+      }}
+    >
       <EditIcon className="mr-2 size-4" />
       Editar
     </Button>

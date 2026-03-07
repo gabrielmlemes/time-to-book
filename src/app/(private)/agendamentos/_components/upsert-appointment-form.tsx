@@ -304,7 +304,7 @@ export const UpsertAppointmentForm = ({
                               : !slot.isWithinWorkdays
                                 ? '(Médico não atende neste dia)'
                                 : !slot.isWithinHours
-                                  ? '(Fora do horário)'
+                                  ? '(Fora do horário de atendimento)'
                                   : '')}
                       </SelectItem>
                     ))}

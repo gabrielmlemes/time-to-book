@@ -9,11 +9,16 @@ import { Appointment } from '../../_types/appointment';
 
 type DeleteAppointmentButtonProps = {
   appointment: Appointment;
+  onSuccess?: () => void;
 };
 
-export const DeleteAppointmentButton = ({ appointment }: DeleteAppointmentButtonProps) => {
+export const DeleteAppointmentButton = ({
+  appointment,
+  onSuccess,
+}: DeleteAppointmentButtonProps) => {
   const { onDelete, isLoading } = useUpsertAppointment({
     appointment,
+    closeModal: onSuccess, // O hook chama closeModal no onSuccess da action
   });
 
   return (
@@ -21,9 +26,9 @@ export const DeleteAppointmentButton = ({ appointment }: DeleteAppointmentButton
       variant="destructive"
       className="flex-1"
       disabled={isLoading}
-      onClick={(e) => {
+      onClick={async (e) => {
         e.preventDefault();
-        onDelete({ id: appointment.id });
+        await onDelete({ id: appointment.id });
       }}
     >
       Deletar

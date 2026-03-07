@@ -1,23 +1,30 @@
 'use client';
 
-import { PencilIcon } from 'lucide-react';
-import React from 'react';
+import { EditIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 
 import { usePatientDialogStore } from '../../_stores/use-patient-dialog-store';
-import type { Patient } from '../../_types/patient';
+import { Patient } from '../../_types/patient';
 
-type EditPatientTableButtonProps = {
+interface EditPatientTableButtonProps {
   patient: Patient;
-};
+  onClick?: () => void;
+}
 
-export const EditPatientTableButton = ({ patient }: EditPatientTableButtonProps) => {
+export const EditPatientTableButton = ({ patient, onClick }: EditPatientTableButtonProps) => {
   const { openDialog } = usePatientDialogStore();
 
   return (
-    <Button className="w-full" onClick={() => openDialog(patient)} variant="ghost">
-      <PencilIcon className="w-4 h-4" />
+    <Button
+      variant="ghost"
+      className="w-full text-center"
+      onClick={() => {
+        openDialog(patient);
+        onClick?.();
+      }}
+    >
+      <EditIcon className="mr-2 size-4" />
       Editar
     </Button>
   );
