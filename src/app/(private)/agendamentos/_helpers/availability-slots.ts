@@ -9,7 +9,7 @@ export interface TimeSlot {
   isOccupied: boolean;
   isWithinHours: boolean;
   isWithinWorkdays: boolean;
-  isPast: boolean; // Nova flag para indicar se o horÃ¡rio jÃ¡ passou
+  isPast: boolean;
 }
 
 interface GetAvailabilitySlotsProps {
@@ -72,7 +72,7 @@ export function getAvailabilitySlots({
     );
   });
 
-  // 4. Gerar a grade fixa
+  // 4. Gerar a grade fixa (Slots de 30 em 30 min)
   const slots: TimeSlot[] = [];
   let currentSlot = dayjs().set('hour', 5).set('minute', 0).set('second', 0);
   const lastSlot = dayjs().set('hour', 23).set('minute', 30).set('second', 0);
@@ -86,7 +86,6 @@ export function getAvailabilitySlots({
       (appt) => dayjs(appt.date).format('HH:mm') === timeString
     );
 
-    // Lógica para horários que já passaram (apenas se a data selecionada for hoje)
     const slotTimeToday = dayjs(date)
       .set('hour', currentSlot.hour())
       .set('minute', currentSlot.minute())

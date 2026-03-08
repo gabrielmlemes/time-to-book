@@ -3,7 +3,7 @@
 import { ptBR } from 'date-fns/locale';
 import dayjs from 'dayjs';
 import { CalendarIcon } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { NumericFormat } from 'react-number-format';
 
 import { ActionButton } from '@/components/action-button';
@@ -64,10 +64,9 @@ export const UpsertAppointmentForm = ({
   });
 
   const selectedDoctorId = form.watch('doctorId');
-  const selectedPatientId = form.watch('patientId');
   const date = form.watch('date');
 
-  const availableSlots = useMemo(() => {
+  const allSlots = useMemo(() => {
     if (!selectedDoctorId || !date) return [];
 
     const doctor = doctors.find((d) => d.id === selectedDoctorId);
@@ -87,6 +86,11 @@ export const UpsertAppointmentForm = ({
     });
   }, [selectedDoctorId, date, doctors, existingAppointments, appointment?.id]);
 
+  // Filtramos apenas os slots que fazem sentido mostrar (dentro do horário e dia do médico)
+  const availableSlots = useMemo(() => {
+    return allSlots.filter((s) => s.isWithinHours && s.isWithinWorkdays);
+  }, [allSlots]);
+
   // Lógica para identificar estados de disponibilidade
   const isDateAndDoctorSelected = !!selectedDoctorId && !!date;
 
@@ -98,16 +102,13 @@ export const UpsertAppointmentForm = ({
     return selectedDay >= doctor.availableFromWeekday && selectedDay <= doctor.availableToWeekday;
   }, [selectedDoctorId, date, doctors]);
 
-  // Extraímos isFull e allPast para o placeholder
   const { isFull, allPast } = useMemo(() => {
     if (!doctorWorksToday || availableSlots.length === 0) {
       return { isFull: false, allPast: false };
     }
 
-    // Filtramos apenas os slots que estariam dentro do horário do médico
-    const workableSlots = availableSlots.filter((s) => s.isWithinHours);
-    const anyAvailable = workableSlots.some((s) => s.available);
-    const everyPast = workableSlots.every((s) => s.isPast);
+    const anyAvailable = availableSlots.some((s) => s.available);
+    const everyPast = availableSlots.every((s) => s.isPast);
 
     return {
       isFull: !anyAvailable,
@@ -116,7 +117,41 @@ export const UpsertAppointmentForm = ({
   }, [doctorWorksToday, availableSlots]);
 
   const isDoctorSelected = !!selectedDoctorId;
-  const isPatientAndDoctorSelected = !!selectedDoctorId && !!selectedPatientId;
+
+  const isDateDisabled = useCallback(
+    (calendarDate: Date) => {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (calendarDate < today) return true;
+
+      if (!selectedDoctorId) return false;
+
+      const doctor = doctors.find((d) => d.id === selectedDoctorId);
+      if (!doctor) return false;
+
+      const dayOfWeek = dayjs(calendarDate).day();
+      const isWorkingDay =
+        dayOfWeek >= doctor.availableFromWeekday && dayOfWeek <= doctor.availableToWeekday;
+      if (!isWorkingDay) return true;
+
+      const slots = getAvailabilitySlots({
+        date: calendarDate,
+        doctorId: selectedDoctorId,
+        currentAppointmentId: appointment?.id,
+        existingAppointments,
+        doctor: {
+          availableFromTime: doctor.availableFromTime,
+          availableToTime: doctor.availableToTime,
+          availableFromWeekday: doctor.availableFromWeekday,
+          availableToWeekday: doctor.availableToWeekday,
+        },
+      });
+
+      const hasAvailableSlots = slots.some((s) => s.available);
+      return !hasAvailableSlots;
+    },
+    [selectedDoctorId, doctors, appointment?.id, existingAppointments]
+  );
 
   useEffect(() => {
     if (selectedDoctorId && !appointment) {
@@ -227,7 +262,7 @@ export const UpsertAppointmentForm = ({
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
-                        disabled={!isPatientAndDoctorSelected}
+                        disabled={!isDoctorSelected}
                         variant={'outline'}
                         className={cn(
                           'w-full pl-3 text-left font-normal',
@@ -252,7 +287,7 @@ export const UpsertAppointmentForm = ({
                         field.onChange(date);
                         setIsCalendarOpen(false);
                       }}
-                      disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                      disabled={isDateDisabled}
                       autoFocus
                       locale={ptBR}
                     />
@@ -270,7 +305,7 @@ export const UpsertAppointmentForm = ({
               <FormItem>
                 <FormLabel>Horário</FormLabel>
                 <Select
-                  disabled={!isDateAndDoctorSelected}
+                  disabled={!isDateAndDoctorSelected || availableSlots.length === 0}
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                   value={field.value}
@@ -301,11 +336,7 @@ export const UpsertAppointmentForm = ({
                             ? '(Ocupado)'
                             : slot.isPast
                               ? '(Horário já passou)'
-                              : !slot.isWithinWorkdays
-                                ? '(Médico não atende neste dia)'
-                                : !slot.isWithinHours
-                                  ? '(Fora do horário de atendimento)'
-                                  : '')}
+                              : '')}
                       </SelectItem>
                     ))}
                   </SelectContent>
