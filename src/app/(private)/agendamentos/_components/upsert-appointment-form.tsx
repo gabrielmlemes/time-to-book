@@ -163,7 +163,7 @@ export const UpsertAppointmentForm = ({
   }, [selectedDoctorId, doctors, form, appointment]);
 
   return (
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent>
       <DialogHeader>
         <DialogTitle>{appointment ? 'Editar agendamento' : 'Novo agendamento'}</DialogTitle>
         <DialogDescription>

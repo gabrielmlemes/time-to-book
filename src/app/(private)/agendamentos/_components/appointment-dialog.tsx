@@ -33,7 +33,7 @@ export function AppointmentDialog({
       {isOpen && (
         <UpsertAppointmentForm
           setOpen={closeDialog}
-          appointment={appointment}
+          appointment={appointment} // -> Esse 'appointment' vem do hook, que será vazio inicialmente para poder abrir o formulário vazio para criação de um novo agendamento, diferente do 'existingAppointments' onde de fato tem os agendamentos, por virem do chamada getAppointment(), recebidos via prop do componente pai.
           patients={patients}
           doctors={doctors}
           existingAppointments={existingAppointments}

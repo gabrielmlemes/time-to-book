@@ -11,11 +11,13 @@ import { actionClient } from '@/lib/next-safe-action';
 
 const upsertAppointmentServerSchema = z.object({
   id: z.uuid().optional(),
-  patientId: z.uuid(),
-  doctorId: z.uuid(),
-  appointmentPriceInCents: z.number().min(1),
-  date: z.date(),
-  // Time serÃ¡ ignorado por enquanto conforme instruÃ§Ãµes da task
+  patientId: z.uuid({ message: 'Selecione um paciente' }),
+  doctorId: z.uuid({ message: 'Selecione um profissional' }),
+  appointmentPriceInCents: z.number().min(1, { message: 'O valor da consulta é obrigatório' }),
+  date: z
+    .date({ error: 'Selecione uma data válida' })
+    .min(new Date(), { message: 'A data deve ser no futuro' }),
+  time: z.string().min(1, { message: 'Selecione um horário' }),
 });
 
 export const upsertAppointment = actionClient
@@ -25,7 +27,7 @@ export const upsertAppointment = actionClient
       headers: await headers(),
     });
 
-    if (!session) {
+    if (!session || !session.user?.clinic?.id) {
       throw new Error('Unauthorized');
     }
 
