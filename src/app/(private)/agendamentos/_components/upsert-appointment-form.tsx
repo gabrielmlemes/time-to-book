@@ -36,8 +36,8 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 
-import { Doctor } from '../../medicos/_types/doctor';
 import { Patient } from '../../pacientes/_types/patient';
+import { Doctor } from '../../profissionais/_types/doctor';
 import { getAvailabilitySlots } from '../_helpers/availability-slots';
 import { useUpsertAppointment } from '../_hooks/useUpsertAppointment';
 import { Appointment } from '../_types/appointment';

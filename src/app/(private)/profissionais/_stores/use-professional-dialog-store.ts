@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-import { Doctor } from '@/app/(private)/medicos/_types/doctor';
+import { Doctor } from '@/app/(private)/profissionais/_types/doctor';
 
 type ProfessionalDialogState = {
   isOpen: boolean;

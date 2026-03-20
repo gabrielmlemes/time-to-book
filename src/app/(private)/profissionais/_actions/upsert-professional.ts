@@ -67,7 +67,7 @@ export const upsertProfessional = actionClient
         },
       });
 
-    revalidatePath('/medicos');
+    revalidatePath('/profissionais');
 
     return {
       message: 'Professional created',

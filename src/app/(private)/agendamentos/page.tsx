@@ -6,8 +6,8 @@ import { Container } from '@/components/ui/page-container';
 import { Separator } from '@/components/ui/separator';
 import { auth } from '@/lib/auth';
 
-import { getProfessionals } from '../medicos/_actions/get-professionals';
 import { getPatients } from '../pacientes/_actions/get-patients';
+import { getProfessionals } from '../profissionais/_actions/get-professionals';
 import { getAppointments } from './_actions/get-appointments';
 import { AppointmentDialog } from './_components/appointment-dialog';
 import AppointmentsPageHeader from './_components/header/appointments-page-header';

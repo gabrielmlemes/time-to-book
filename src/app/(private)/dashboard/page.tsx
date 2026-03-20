@@ -2,7 +2,10 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import React from 'react';
 
+import { Container } from '@/components/ui/page-container';
 import { auth } from '@/lib/auth';
+
+import { DashboardPageHeader } from './_components/dashboard-page-header';
 
 const DashboardPage = async () => {
   const session = await auth.api.getSession({
@@ -18,9 +21,9 @@ const DashboardPage = async () => {
   }
 
   return (
-    <>
-      <p>{session?.user?.name}</p>
-    </>
+    <Container>
+      <DashboardPageHeader />
+    </Container>
   );
 };
 

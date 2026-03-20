@@ -4,8 +4,8 @@ import dynamic from 'next/dynamic';
 
 import { Dialog } from '@/components/ui/dialog';
 
-import { Doctor } from '../../medicos/_types/doctor';
 import { Patient } from '../../pacientes/_types/patient';
+import { Doctor } from '../../profissionais/_types/doctor';
 import { useAppointmentDialogStore } from '../_stores/use-appointment-dialog-store';
 
 const UpsertAppointmentForm = dynamic(

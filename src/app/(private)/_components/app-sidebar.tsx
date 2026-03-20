@@ -1,5 +1,5 @@
 'use client';
-import { Calendar1Icon, Home, LogOut, Stethoscope, Users2Icon } from 'lucide-react';
+import { Calendar1Icon, Cross, Home, LogOut, Users2Icon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -40,9 +40,9 @@ const items = [
     icon: Calendar1Icon,
   },
   {
-    title: 'Médicos',
-    url: '/medicos',
-    icon: Stethoscope,
+    title: 'Profissionais',
+    url: '/profissionais',
+    icon: Cross,
   },
   {
     title: 'Pacientes',
@@ -81,7 +81,7 @@ export default function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="mb-2">Menu principal</SidebarGroupLabel>
-          <SidebarGroupContent>
+          <SidebarGroupContent className="space-y-1">
             {items.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild isActive={pathname === item.url}>
@@ -112,10 +112,10 @@ export default function AppSidebar() {
               </DropdownMenuTrigger>
 
               <DropdownMenuContent>
-                <p className="text-xs text-muted-foreground px-2">{userEmail}</p>
+                <p className="text-xs text-muted-foreground px-2 py-1">{userEmail}</p>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  className="w-full flex items-center justify-center"
+                  className="w-full flex items-center justify-center cursor-pointer"
                   onClick={handleSignOut}
                   variant="destructive"
                 >

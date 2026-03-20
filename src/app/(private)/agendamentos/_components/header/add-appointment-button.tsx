@@ -11,7 +11,7 @@ export function AddAppointmentButton() {
 
   return (
     <Button onClick={() => openDialog()}>
-      <PlusIcon className="mr-2 h-4 w-4" />
+      <PlusIcon className="size-4" />
       Novo agendamento
     </Button>
   );
